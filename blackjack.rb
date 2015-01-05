@@ -50,75 +50,81 @@ def count_total(array)
   total
 end
 
-deck = build_deck(1)
+while true
+  deck = build_deck(1)
 
-player_cards = []
-dealer_cards = []
+  player_cards = []
+  dealer_cards = []
 
-bust = false
+  bust = false
 
-2.times { hit(player_cards, deck) }
-2.times { hit(dealer_cards, deck) }
+  2.times { hit(player_cards, deck) }
+  2.times { hit(dealer_cards, deck) }
 
-puts "Player has the following cards in hand: #{player_cards.join(", ")}."
-puts "The total is #{count_total(player_cards)}"
-puts "Dealer has the following cards in hand: #{dealer_cards.first} and one other card."
-puts
+  puts "Player has the following cards in hand: #{player_cards.join(", ")}."
+  puts "The total is #{count_total(player_cards)}"
+  puts "Dealer has the following cards in hand: #{dealer_cards.first} and one other card."
+  puts
 
-while !bust
-  if count_total(player_cards) == 21
-    puts "Blackjack! Player wins!"
-    break
-  elsif count_total(player_cards) > 21
-    puts "Player busts and loses!"
-    bust = true
-    break
-  else
-    puts "Would you like to hit or stay? (h/s)"
-    answer = gets.chomp
-
-    while answer.downcase != "h" && answer.downcase != "s"
-      puts "Please select either 'h' for hit of 's' for stay."
-      answer = gets.chomp
-    end
-
-    if answer == "h"
-      hit(player_cards, deck)
-      puts "Player has the following cards in hand: #{player_cards.join(", ")}."
-      puts "The total is #{count_total(player_cards)}"
-    else
-      puts "You selected to stay."
+  while !bust
+    if count_total(player_cards) == 21
+      puts "Blackjack! Player wins!"
       break
-    end
-  end
-end
-
-puts "Player has the following cards in hand: #{player_cards.join(", ")}."
-    
-# dealer turn
-# hit until dealer has 17 or busts
-
-puts "Dealer has the following cards in hand: #{dealer_cards.join(", ")}"
-
-# Add check if player busts
-if !bust
-  while count_total(dealer_cards) < 17
-    hit(dealer_cards, deck)
-    if count_total(dealer_cards) == 21
-      puts "Blackjack! Dealer wins!"
-      break
-    elsif count_total(dealer_cards) > 21
-      puts "Dealer busts and loses!"
+    elsif count_total(player_cards) > 21
+      puts "Player busts and loses!"
       bust = true
       break
+    else
+      puts "Would you like to hit or stay? (h/s)"
+      answer = gets.chomp
+
+      while answer.downcase != "h" && answer.downcase != "s"
+        puts "Please select either 'h' for hit of 's' for stay."
+        answer = gets.chomp
+      end
+
+      if answer == "h"
+        hit(player_cards, deck)
+        puts "Player has the following cards in hand: #{player_cards.join(", ")}."
+        puts "The total is #{count_total(player_cards)}"
+      else
+        puts "You selected to stay."
+        break
+      end
     end
   end
-end
 
-if !bust
-    if count_total(player_cards) > count_total(dealer_cards)
-    puts "Player wins!"
-  else
-    puts "Dealer wins!"
+  puts "Player has the following cards in hand: #{player_cards.join(", ")}."
+      
+  # dealer turn
+  # hit until dealer has 17 or busts
+
+  puts "Dealer has the following cards in hand: #{dealer_cards.join(", ")}"
+
+  # Add check if player busts
+  if !bust
+    while count_total(dealer_cards) < 17
+      hit(dealer_cards, deck)
+      if count_total(dealer_cards) == 21
+        puts "Blackjack! Dealer wins!"
+        break
+      elsif count_total(dealer_cards) > 21
+        puts "Dealer busts and loses!"
+        bust = true
+        break
+      end
+    end
   end
+
+  if !bust
+      if count_total(player_cards) > count_total(dealer_cards)
+      puts "Player wins!"
+    else
+      puts "Dealer wins!"
+    end
+  end
+
+  puts "Would you like to play again? (y/n)"
+  answer = gets.chomp
+  break if answer.downcase != "y"
 end
