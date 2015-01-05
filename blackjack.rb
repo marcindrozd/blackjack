@@ -109,7 +109,7 @@ if !bust
       break
     elsif count_total(dealer_cards) > 21
       puts "Dealer busts and loses!"
-      buts = true
+      bust = true
       break
     end
   end
