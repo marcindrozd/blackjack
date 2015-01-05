@@ -22,14 +22,18 @@ def count_total(array)
   array.each do |card|
     if card.to_i != 0
       total += card.to_i
-    elsif card[0] == "A" && total <= 10
+    elsif card[0] == "A"
       total += 11
-    elsif card[0] == "A" && total > 10
-      total += 1
     else
       total += 10
     end
   end
+
+  # Additional aces calculation
+  array.select { |item| item =~ /[A]/}.count.times do
+    total -= 10 if total > 21
+  end 
+
   total
 end
 
@@ -41,6 +45,7 @@ while true
   dealer_cards = []
 
   bust = false
+  win = false
 
   2.times { hit(player_cards, deck) }
   2.times { hit(dealer_cards, deck) }
@@ -50,11 +55,10 @@ while true
   puts "Dealer has the following cards in hand: #{dealer_cards.first} and one other card."
   puts
 
-  sleep(2)
-
-  while !bust
+  while !bust && !win
     if count_total(player_cards) == 21
       puts "Blackjack! Player wins!"
+      win = true
       break
     elsif count_total(player_cards) > 21
       puts "Player busts and loses!"
@@ -82,15 +86,17 @@ while true
     end
   end
 
-  puts "Dealer has the following cards in hand: #{dealer_cards.join(", ")}"
-  puts "The total for dealer is #{count_total(dealer_cards)}."
-
-  if !bust
+  if !bust && !win
+    puts "Dealer has the following cards in hand: #{dealer_cards.join(", ")}"
+    puts "The total for dealer is #{count_total(dealer_cards)}."
     while count_total(dealer_cards) < 17
       puts "...Drawing another card..."
       hit(dealer_cards, deck)
+      puts "Dealer has the following cards in hand: #{dealer_cards.join(", ")}"
+      puts "The total for dealer is #{count_total(dealer_cards)}."
       if count_total(dealer_cards) == 21
         puts "Blackjack! Dealer wins!"
+        win = true
         break
       elsif count_total(dealer_cards) > 21
         puts "Dealer busts and loses!"
@@ -100,7 +106,7 @@ while true
     end
   end
 
-  if !bust
+  if !bust && !win
     puts "Player cards total is: #{count_total(player_cards)}."
     puts "Dealer cards total is: #{count_total(dealer_cards)}."
     if count_total(player_cards) > count_total(dealer_cards)
