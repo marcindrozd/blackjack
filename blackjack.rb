@@ -1,4 +1,4 @@
-SUITS = ["hearts", "spades", "diamonds", "clubs"]
+SUITS = ["H", "S", "D", "C"]
 VALUES = [2,3,4,5,6,7,8,9,10,"J","Q","K","A"]
 
 def build_deck(number_of_decks)
@@ -6,7 +6,7 @@ def build_deck(number_of_decks)
   number_of_decks.times do
     SUITS.each do |suit|
       VALUES.each do |value|
-        deck << value.to_s + " of " + suit
+        deck << value.to_s + suit
       end
     end
   end
@@ -39,6 +39,11 @@ end
 
 while true
   system("clear")
+
+  puts "Hello! Let's play Blackjack!"
+  puts "What is your name?"
+  player_name = gets.chomp
+
   deck = build_deck(1)
 
   player_cards = []
@@ -50,18 +55,18 @@ while true
   2.times { hit(player_cards, deck) }
   2.times { hit(dealer_cards, deck) }
 
-  puts "Player has the following cards in hand: #{player_cards.join(", ")}."
-  puts "The total for player is #{count_total(player_cards)}."
+  puts "#{player_name} has the following cards in hand: #{player_cards.join(", ")}."
+  puts "The total for #{player_name} is #{count_total(player_cards)}."
   puts "Dealer has the following cards in hand: #{dealer_cards.first} and one other card."
   puts
 
   while !bust && !win
     if count_total(player_cards) == 21
-      puts "Blackjack! Player wins!"
+      puts "Blackjack! #{player_name} wins!"
       win = true
       break
     elsif count_total(player_cards) > 21
-      puts "Player busts and loses!"
+      puts "#{player_name} busts and loses!"
       bust = true
       break
     else
@@ -76,8 +81,8 @@ while true
       if answer == "h"
         puts "...Drawing another card..."
         hit(player_cards, deck)
-        puts "Player has the following cards in hand: #{player_cards.join(", ")}."
-        puts "The total for player is #{count_total(player_cards)}."
+        puts "#{player_name} has the following cards in hand: #{player_cards.join(", ")}."
+        puts "The total for #{player_name} is #{count_total(player_cards)}."
       else
         puts "You selected to stay."
         puts
@@ -107,12 +112,14 @@ while true
   end
 
   if !bust && !win
-    puts "Player cards total is: #{count_total(player_cards)}."
+    puts "#{player_name} cards total is: #{count_total(player_cards)}."
     puts "Dealer cards total is: #{count_total(dealer_cards)}."
     if count_total(player_cards) > count_total(dealer_cards)
-      puts "Player wins!\n"
-    else
+      puts "#{player_name} wins!\n"
+    elsif count_total(player_cards) < count_total(dealer_cards)
       puts "Dealer wins!\n"
+    else
+      puts "It's a tie!"
     end
   end
 
@@ -122,3 +129,5 @@ while true
   answer = gets.chomp
   break if answer.downcase != "y"
 end
+
+puts "Thank you! Bye!"
