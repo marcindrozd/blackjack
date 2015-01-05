@@ -25,13 +25,23 @@ def build_deck(number_of_decks)
   deck.shuffle
 end
 
+def hit(who, deck)
+  who << deck.pop
+end
+
+def count_total(array)
+
+end
+
 deck = build_deck(1)
 
 player_cards = []
 dealer_cards = []
 
-2.times { player_cards << deck.pop }
-2.times { dealer_cards << deck.pop }
+2.times { hit(player_cards, deck) }
+2.times { hit(dealer_cards, deck) }
+
+p deck.size
 
 puts "Player has the following cards in hand: #{player_cards.join(", ")}."
 puts "Dealer has the following cards in hand: #{dealer_cards.first} and one other card."
