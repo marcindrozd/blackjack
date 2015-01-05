@@ -30,7 +30,22 @@ def hit(who, deck)
 end
 
 def count_total(array)
-
+  total = 0
+  array.each do |card|
+  # if 2-10 = value is face value
+    if card.to_i != 0
+      total += card.to_i
+  # if A value is 11 if total <= 10 and 1 if total > 10
+    elsif card[0] == "A" && total <= 10
+      total += 11
+    elsif card[0] == "A" && total > 10
+      total += 1
+  # J - K value is 10
+    else
+      total += 10
+    end
+  end
+  total
 end
 
 deck = build_deck(1)
@@ -41,9 +56,6 @@ dealer_cards = []
 2.times { hit(player_cards, deck) }
 2.times { hit(dealer_cards, deck) }
 
-p deck.size
-
 puts "Player has the following cards in hand: #{player_cards.join(", ")}."
 puts "Dealer has the following cards in hand: #{dealer_cards.first} and one other card."
-
 
