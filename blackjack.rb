@@ -57,5 +57,40 @@ dealer_cards = []
 2.times { hit(dealer_cards, deck) }
 
 puts "Player has the following cards in hand: #{player_cards.join(", ")}."
+puts "The total is #{count_total(player_cards)}"
 puts "Dealer has the following cards in hand: #{dealer_cards.first} and one other card."
+puts
 
+while true
+  if count_total(player_cards) == 21
+    puts "Blackjack! Player wins!"
+    break
+  elsif count_total(player_cards) > 21
+    puts "Player busts and loses!"
+    break
+  else
+    puts "Would you like to hit or stay? (h/s)"
+    answer = gets.chomp
+
+    while answer.downcase != "h" && answer.downcase != "s"
+      puts "Please select either 'h' for hit of 's' for stay."
+      answer = gets.chomp
+    end
+
+    if answer == "h"
+      hit(player_cards, deck)
+      puts "Player has the following cards in hand: #{player_cards.join(", ")}."
+      puts "The total is #{count_total(player_cards)}"
+    else
+      puts "You selected to stay."
+      break
+    end
+  end
+end
+
+puts "Player has the following cards in hand: #{player_cards.join(", ")}."
+    
+# if player_hand value is 21 player wins
+# if player_hand value is greater than 21 he busts and loses
+# if player_hand is less than 21 he chooses to either hit or stay
+# if hit, the total value is counted again
