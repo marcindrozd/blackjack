@@ -10,6 +10,8 @@
 # 10. else dealer wins
 # 11. ask to play again
 
+require 'pry'
+
 SUITS = ["hearts", "spades", "diamonds", "clubs"]
 VALUES = [2,3,4,5,6,7,8,9,10,"J","Q","K","A"]
 
@@ -53,6 +55,8 @@ deck = build_deck(1)
 player_cards = []
 dealer_cards = []
 
+bust = false
+
 2.times { hit(player_cards, deck) }
 2.times { hit(dealer_cards, deck) }
 
@@ -61,12 +65,13 @@ puts "The total is #{count_total(player_cards)}"
 puts "Dealer has the following cards in hand: #{dealer_cards.first} and one other card."
 puts
 
-while true
+while !bust
   if count_total(player_cards) == 21
     puts "Blackjack! Player wins!"
     break
   elsif count_total(player_cards) > 21
     puts "Player busts and loses!"
+    bust = true
     break
   else
     puts "Would you like to hit or stay? (h/s)"
@@ -90,7 +95,30 @@ end
 
 puts "Player has the following cards in hand: #{player_cards.join(", ")}."
     
-# if player_hand value is 21 player wins
-# if player_hand value is greater than 21 he busts and loses
-# if player_hand is less than 21 he chooses to either hit or stay
-# if hit, the total value is counted again
+# dealer turn
+# hit until dealer has 17 or busts
+
+puts "Dealer has the following cards in hand: #{dealer_cards.join(", ")}"
+
+# Add check if player busts
+if !bust
+  while count_total(dealer_cards) < 17
+    hit(dealer_cards, deck)
+    if count_total(dealer_cards) == 21
+      puts "Blackjack! Dealer wins!"
+      break
+    elsif count_total(dealer_cards) > 21
+      puts "Dealer busts and loses!"
+      buts = true
+      break
+    end
+  end
+end
+
+if !bust
+    if count_total(player_cards) > count_total(dealer_cards)
+    puts "Player wins!"
+  else
+    puts "Dealer wins!"
+  end
+end
