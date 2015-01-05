@@ -34,3 +34,6 @@ dealer_cards = []
 2.times { dealer_cards << deck.pop }
 
 puts "Player has the following cards in hand: #{player_cards.join(", ")}."
+puts "Dealer has the following cards in hand: #{dealer_cards.first} and one other card."
+
+
