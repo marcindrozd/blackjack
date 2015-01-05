@@ -37,12 +37,12 @@ def count_total(array)
   total
 end
 
+puts "Hello! Let's play Blackjack!"
+puts "What is your name?"
+player_name = gets.chomp
+
 while true
   system("clear")
-
-  puts "Hello! Let's play Blackjack!"
-  puts "What is your name?"
-  player_name = gets.chomp
 
   deck = build_deck(1)
 
