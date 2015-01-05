@@ -18,10 +18,19 @@ def build_deck(number_of_decks)
   number_of_decks.times do
     SUITS.each do |suit|
       VALUES.each do |value|
-        deck << value.to_s + " " + suit
+        deck << value.to_s + " of " + suit
       end
     end
   end
   deck.shuffle
 end
 
+deck = build_deck(1)
+
+player_cards = []
+dealer_cards = []
+
+2.times { player_cards << deck.pop }
+2.times { dealer_cards << deck.pop }
+
+puts "Player has the following cards in hand: #{player_cards.join(", ")}."
